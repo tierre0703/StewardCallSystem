@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnAccept"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:background="@drawable/border5"
+            android:text="Accept"
+            android:textSize="8sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/txtHeader"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_column="0"
+                android:layout_row="0"
+                android:background="@drawable/border2"
+                android:editable="false"
+                android:ems="10"
+                android:enabled="false"
+                android:gravity="center_vertical|center_horizontal"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:textColor="@color/textBlue"
+                android:textSize="8sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/txtMessage"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_column="0"
+                android:background="@drawable/border2"
+                android:editable="false"
+                android:ems="10"
+                android:enabled="false"
+                android:gravity="center_vertical|center_horizontal"
+                android:inputType="textPersonName"
+                android:text="Message"
+                android:textColor="@color/textBlue"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

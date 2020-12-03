@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#1d5b88</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="bluelight">#a2ccec</color>
+    <color name="textBlue">#074878</color>
+    <color name="mattRed">#b11414</color>
+    <color name="mattGreen">#448934</color>
+    <color name="mattYellow">#eab815</color>
+    <color name="lightblueback">#d4ecff</color>
+    <color name="redlight">#9ca10808</color>
+    <color name="yellowlight">#90e9b715</color>
+    <color name="lightbluebacklist">#54a4e2</color>
+    <color name="whiteText">#ffffff</color>
+    <color name="lightGreen">#7fb27c</color>
+</resources>

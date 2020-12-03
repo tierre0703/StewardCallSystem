@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomServiceMngtService", "RoomServiceMngtService\RoomServiceMngtService.csproj", "{4DAA1888-5B1E-4599-8BF7-EB6D3B8E5152}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCPServer", "TCPServer\TCPServer.csproj", "{7B68E429-E2BB-47D2-AB49-5F8D2E90E0D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementApp", "ManagementApp\ManagementApp.csproj", "{50F0C2ED-1033-48CA-B4F2-B1F9A4FD8C6C}"
+EndProject
+Project("{840C416C-B8F3-42BC-B0DD-F6BB14C9F8CB}") = "StewardCallSystemInstaller", "StewardCallSystemInstaller\StewardCallSystemInstaller.aiproj", "{0E339F5D-146D-4B30-A9A6-E3C3D27B70C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedContacts", "SharedContacts\SharedContacts.csproj", "{A4807E62-5F94-4C5E-9D75-A0E4EB22C09D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DefaultBuild|Any CPU = DefaultBuild|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4DAA1888-5B1E-4599-8BF7-EB6D3B8E5152}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DAA1888-5B1E-4599-8BF7-EB6D3B8E5152}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DAA1888-5B1E-4599-8BF7-EB6D3B8E5152}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DAA1888-5B1E-4599-8BF7-EB6D3B8E5152}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
+		{4DAA1888-5B1E-4599-8BF7-EB6D3B8E5152}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DAA1888-5B1E-4599-8BF7-EB6D3B8E5152}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B68E429-E2BB-47D2-AB49-5F8D2E90E0D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B68E429-E2BB-47D2-AB49-5F8D2E90E0D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B68E429-E2BB-47D2-AB49-5F8D2E90E0D6}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B68E429-E2BB-47D2-AB49-5F8D2E90E0D6}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
+		{7B68E429-E2BB-47D2-AB49-5F8D2E90E0D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B68E429-E2BB-47D2-AB49-5F8D2E90E0D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50F0C2ED-1033-48CA-B4F2-B1F9A4FD8C6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50F0C2ED-1033-48CA-B4F2-B1F9A4FD8C6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50F0C2ED-1033-48CA-B4F2-B1F9A4FD8C6C}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{50F0C2ED-1033-48CA-B4F2-B1F9A4FD8C6C}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
+		{50F0C2ED-1033-48CA-B4F2-B1F9A4FD8C6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50F0C2ED-1033-48CA-B4F2-B1F9A4FD8C6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E339F5D-146D-4B30-A9A6-E3C3D27B70C1}.Debug|Any CPU.ActiveCfg = DefaultBuild
+		{0E339F5D-146D-4B30-A9A6-E3C3D27B70C1}.Debug|Any CPU.Build.0 = DefaultBuild
+		{0E339F5D-146D-4B30-A9A6-E3C3D27B70C1}.DefaultBuild|Any CPU.ActiveCfg = DefaultBuild
+		{0E339F5D-146D-4B30-A9A6-E3C3D27B70C1}.DefaultBuild|Any CPU.Build.0 = DefaultBuild
+		{0E339F5D-146D-4B30-A9A6-E3C3D27B70C1}.Release|Any CPU.ActiveCfg = DefaultBuild
+		{0E339F5D-146D-4B30-A9A6-E3C3D27B70C1}.Release|Any CPU.Build.0 = DefaultBuild
+		{A4807E62-5F94-4C5E-9D75-A0E4EB22C09D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4807E62-5F94-4C5E-9D75-A0E4EB22C09D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4807E62-5F94-4C5E-9D75-A0E4EB22C09D}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4807E62-5F94-4C5E-9D75-A0E4EB22C09D}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
+		{A4807E62-5F94-4C5E-9D75-A0E4EB22C09D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4807E62-5F94-4C5E-9D75-A0E4EB22C09D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45
+	EndGlobalSection
+EndGlobal

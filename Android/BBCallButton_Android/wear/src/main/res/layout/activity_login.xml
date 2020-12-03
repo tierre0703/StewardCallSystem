@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.WatchViewStub xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/watch_view_stub_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_google_signin_btn_text_dark_default"
+    tools:context="com.example.milanchinthaka.bbcallbutton_android.LoginActivity"
+    app:rectLayout="@layout/rect_activity_login"
+    app:roundLayout="@layout/round_activity_login">
+
+
+</android.support.wearable.view.WatchViewStub>

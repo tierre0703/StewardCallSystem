@@ -1,5 +1,5 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.Data;
-using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
+﻿//using Microsoft.Practices.EnterpriseLibrary.Data;
+//using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using RoomServiceMngtService.Factories;
 using RoomServiceMngtService.Model;
 using System;
@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using System.Data.SQLite;
 
 namespace RoomServiceMngtService.DataAccess
 {

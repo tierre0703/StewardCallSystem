@@ -32,21 +32,15 @@ namespace RoomServiceMngtService.DataAccess
         public string SaveCall(Call mObje)
         {
             string sucess = "";
-            using (TransactionScope mScop = new TransactionScope())
             {
                 try
                 {
-                    Database db = new SqlDatabase(Constants.DataBaseConnectionString);
-                    DbCommand dbCommand = db.GetStoredProcCommand("usp_InsertCall");
-                    db.AddInParameter(dbCommand, "@UniqueId", DbType.String, mObje.UniqueId);
-                    //db.AddInParameter(dbCommand, "@EmployeeId", DbType.Int32, mObje.Employee.Id);
-                    db.AddInParameter(dbCommand, "@RoomId", DbType.Int32, mObje.Room.Id);
-                    db.AddInParameter(dbCommand, "@IsAccepted", DbType.Boolean, mObje.Accepted);
-                    db.AddInParameter(dbCommand, "@TimeStamp", DbType.DateTime, mObje.TimeStamp);
-
-                    db.ExecuteNonQuery(dbCommand);
-
-                    mScop.Complete();
+                    SQLiteConnection conn = DBManager.getCon();
+                    DBManager.procInsertCall(mObje.UniqueId, 
+                        /*mObje.Employee.Id,*/ 
+                        mObje.Room.Id, 
+                        Convert.ToInt32(mObje.Accepted), 
+                        mObje.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss"));
 
                     sucess = "Sucess";
                 }
@@ -61,28 +55,20 @@ namespace RoomServiceMngtService.DataAccess
         public string UpdateCall(Call mObje)
         {
             string sucess = "";
-            using (TransactionScope mScop = new TransactionScope())
+            try
             {
-                try
-                {
-                    Database db = new SqlDatabase(Constants.DataBaseConnectionString);
-                    DbCommand dbCommand = db.GetStoredProcCommand("usp_UpdateCall");
-                    db.AddInParameter(dbCommand, "@UniqueId", DbType.String, mObje.UniqueId);
-                    db.AddInParameter(dbCommand, "@EmployeeId", DbType.Int32, mObje.Employee.Id);
-                    //db.AddInParameter(dbCommand, "@RoomId", DbType.Int32, mObje.Room.Id);
-                    db.AddInParameter(dbCommand, "@IsAccepted", DbType.Boolean, mObje.Accepted);
-                    //db.AddInParameter(dbCommand, "@TimeStamp", DbType.DateTime, mObje.TimeStamp);
+                SQLiteConnection conn = DBManager.getCon();
+                DBManager.procUpdateCall(
+                    mObje.UniqueId,
+                    mObje.Employee.Id,
+                    Convert.ToInt32(mObje.Accepted)
+                    );
 
-                    db.ExecuteNonQuery(dbCommand);
-
-                    mScop.Complete();
-
-                    sucess = "Sucess";
-                }
-                catch (Exception ex)
-                {
-                    sucess = "Fail";
-                }
+                sucess = "Sucess";
+            }
+            catch (Exception ex)
+            {
+                sucess = "Fail";
             }
             return sucess;
         }
@@ -90,24 +76,19 @@ namespace RoomServiceMngtService.DataAccess
         public string DeleteCall(Call mObje)
         {
             string sucess = "";
-            using (TransactionScope mScop = new TransactionScope())
+            try
             {
-                try
-                {
-                    Database db = new SqlDatabase(Constants.DataBaseConnectionString);
-                    DbCommand dbCommand = db.GetStoredProcCommand("usp_DeleteCall");
-                    db.AddInParameter(dbCommand, "@UniqueId", DbType.String, mObje.UniqueId);
+                
+                SQLiteConnection conn = DBManager.getCon();
+                DBManager.procDeleteCall(
+                    mObje.UniqueId
+                    );
 
-                    db.ExecuteNonQuery(dbCommand);
-
-                    mScop.Complete();
-
-                    sucess = "Sucess";
-                }
-                catch (Exception ex)
-                {
-                    sucess = "Fail";
-                }
+                sucess = "Sucess";
+            }
+            catch (Exception ex)
+            {
+                sucess = "Fail";
             }
             return sucess;
         }
@@ -116,76 +97,69 @@ namespace RoomServiceMngtService.DataAccess
         {
             List<Call> callList = new List<Call>();
 
-            using (TransactionScope mScop = new TransactionScope())
+            try
             {
-                try
-                {
-                    Database db = new SqlDatabase(Constants.DataBaseConnectionString);
-                    DbCommand dbCommand = db.GetStoredProcCommand("usp_GetDailyAcceptedCallsByEmployee");
-                    db.AddInParameter(dbCommand, "@EmployeeId", DbType.Int32, employeeId);
-                    db.AddInParameter(dbCommand, "@FromDate", DbType.DateTime, fromDate);
-                    db.AddInParameter(dbCommand, "@ToDate", DbType.DateTime, toDate);
+                
+                SQLiteConnection conn = DBManager.getCon();
+                SQLiteDataReader _reader = DBManager.procGetDailyAcceptedCallsByEmployee(
+                    employeeId,
+                    fromDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    toDate.ToString("yyyy-MM-dd HH:mm:ss")
+                    );
 
-                    using (IDataReader dr = db.ExecuteReader(dbCommand))
+                while (_reader.Read())
+                {
+                    callList.Add(new Call
                     {
-                        while (dr.Read())
-                        {
-                            callList.Add(new Call
-                            {
-                                UniqueId = dr["UniqueId"].ToString(),
-                                Room = RoomFactory.GetInstance().TryGet(int.Parse(dr["RoomId"].ToString())),
-                                TimeStamp = DateTime.Parse(dr["TimeStamp"].ToString()),
-                                Accepted = false,
-                                Employee = ((dr["EmployeeId"] == null)?null:EmployeeFactory.GetInstance().TryGet(int.Parse(dr["EmployeeId"].ToString())))
-                            });
-                        }
-                    }
-                    mScop.Complete();
+                        UniqueId = _reader.GetString(_reader.GetOrdinal("UniqueId")),
+                        Room = RoomFactory.GetInstance().TryGet(_reader.GetInt32(_reader.GetOrdinal("RoomId"))),
+                        TimeStamp = DateTime.Parse(_reader.GetString(_reader.GetOrdinal("TimeStamp"))),
+                        Accepted = false,
+                        Employee = ((_reader.IsDBNull(_reader.GetOrdinal("EmployeeId")))?null:EmployeeFactory.GetInstance().TryGet(_reader.GetInt32(_reader.GetOrdinal("EmployeeId"))))
+                    });
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-
-                return callList;
+                DBManager.closeReader(_reader);
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return callList;
         }
 
         public List<Call> GetRecentUnacceptedCalls(DateTime fromDate, DateTime toDate)
         {
             List<Call> callList = new List<Call>();
 
-            using (TransactionScope mScop = new TransactionScope())
+            try
             {
-                try
+             
+                var _conn = DBManager.getCon();
+                var _reader = DBManager.procGetRecentUnacceptedCall(
+                    fromDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    toDate.ToString("yyyy-MM-dd HH:mm:ss")
+                    );
+                while (_reader.Read())
                 {
-                    Database db = new SqlDatabase(Constants.DataBaseConnectionString);
-                    DbCommand dbCommand = db.GetStoredProcCommand("usp_GetRecentUnacceptedCall");
-                    db.AddInParameter(dbCommand, "@FromDate", DbType.DateTime,fromDate);
-                    db.AddInParameter(dbCommand, "@ToDate", DbType.DateTime, toDate);
-
-                    using (IDataReader dr = db.ExecuteReader(dbCommand))
+                    callList.Add(new Call
                     {
-                        while (dr.Read())
-                        {
-                            callList.Add(new Call
-                            {
-                                UniqueId = dr["UniqueId"].ToString(),
-                                Room = RoomFactory.GetInstance().TryGet(int.Parse(dr["RoomId"].ToString())),
-                                TimeStamp = DateTime.Parse(dr["TimeStamp"].ToString()),
-                                Accepted = false,
-                            });
-                        }
-                    }
-                    mScop.Complete();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
+                        UniqueId = _reader.GetString(_reader.GetOrdinal("UniqueId")),
+                        Room = RoomFactory.GetInstance().TryGet(_reader.GetInt32(_reader.GetOrdinal("RoomId"))),
+                        TimeStamp = DateTime.Parse(_reader.GetString(_reader.GetOrdinal("TimeStamp"))),
+                        Accepted = false,
+                    });
                 }
 
-                return callList;
+                DBManager.closeReader(_reader);
+
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return callList;
         }
     }
 }

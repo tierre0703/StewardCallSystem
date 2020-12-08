@@ -8,8 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
-using System.Data.SqlClient;
+//using System.Data.SqlClient;
 using System.ServiceProcess;
+using System.Data.SQLite;
 
 namespace ManagementApp
 {
@@ -17,10 +18,10 @@ namespace ManagementApp
     {
         public static readonly string DataBaseConnectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-        SqlConnection con;
-        SqlDataAdapter adaptor;
+        SQLiteConnection con;
+        SQLiteDataAdapter adaptor;
         DataSet ds;
-        SqlCommandBuilder sqlCommBuilder;
+        SQLiteCommandBuilder sqlCommBuilder;
 
         
 
@@ -33,12 +34,12 @@ namespace ManagementApp
         {
             try
             {
-                con = new SqlConnection();
-                con.ConnectionString = DataBaseConnectionString;
+                //con = new SQLiteConnection();
+                //con.ConnectionString = DataBaseConnectionString;
+                //con.Open();
+                con = DBManager.getCon();
 
-                con.Open();
-
-                adaptor = new SqlDataAdapter("SELECT Id AS id_p, ROW_NUMBER() OVER(ORDER BY Id)  AS ID, Name, Username, Password FROM Employee", con);
+                adaptor = new SQLiteDataAdapter("SELECT Id AS id_p, ROW_NUMBER() OVER(ORDER BY Id)  AS ID, Name, Username, Password FROM Employee", con);
                 ds = new DataSet();
                 adaptor.Fill(ds, "Employee_Details");
                 dataGridView1.DataSource = ds.Tables[0];
@@ -57,7 +58,7 @@ namespace ManagementApp
         {
             try
             {
-                sqlCommBuilder = new SqlCommandBuilder(adaptor);
+                sqlCommBuilder = new SQLiteCommandBuilder(adaptor);
                 adaptor.Update(ds, "Employee_Details");
 
                 ServiceHandler.ServiceResart();
@@ -88,7 +89,7 @@ namespace ManagementApp
 
                     try
                     {
-                        sqlCommBuilder = new SqlCommandBuilder(adaptor);
+                        sqlCommBuilder = new SQLiteCommandBuilder(adaptor);
                         adaptor.Update(ds, "Employee_Details");
 
                         ServiceHandler.ServiceResart();

@@ -31,34 +31,31 @@ namespace RoomServiceMngtService.DataAccess
         {
             List<Room> roomList = new List<Room>();
 
-            using (TransactionScope mScop = new TransactionScope())
+            try
             {
-                try
+
+
+                var _conn = DBManager.getCon();
+                var _reader = DBManager.procGetRoomList();
+
+                while (_reader.Read())
                 {
-                    Database db = new SqlDatabase(Constants.DataBaseConnectionString);
-                    DbCommand dbCommand = db.GetStoredProcCommand("usp_GetRoomList");
-                    using (IDataReader dr = db.ExecuteReader(dbCommand))
+                    roomList.Add(new Room
                     {
-                        while (dr.Read())
-                        {
-                            roomList.Add(new Room
-                            {
-                                Id = int.Parse(dr["Id"].ToString()),
-                                UniqueId = dr["UniqueId"].ToString(),
-                                Number = dr["Number"].ToString(),
-                            });
-                        }
-                    }
-                    mScop.Complete();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
+                        Id =  _reader.GetInt32(_reader.GetOrdinal("Id")),
+                        UniqueId = _reader.GetString(_reader.GetOrdinal("UniqueId")),
+                        Number = _reader.GetString(_reader.GetOrdinal("Number")),
+                    });
                 }
 
-                return roomList;
+                DBManager.closeReader(_reader);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
+            return roomList;
         }
     }
 }

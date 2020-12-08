@@ -31,32 +31,28 @@ namespace RoomServiceMngtService.DataAccess
         {
             List<Email> employeeList = new List<Email>();
 
-            using (TransactionScope mScop = new TransactionScope())
+            try
             {
-                try
-                {
-                    Database db = new SqlDatabase(Constants.DataBaseConnectionString);
-                    DbCommand dbCommand = db.GetStoredProcCommand("usp_GetEmailList");
-                    using (IDataReader dr = db.ExecuteReader(dbCommand))
-                    {
-                        while (dr.Read())
-                        {
-                            employeeList.Add(new Email
-                            {
-                                Id = int.Parse(dr["Id"].ToString()),
-                                EmailAddress = dr["Email"].ToString(),
-                            });
-                        }
-                    }
-                    mScop.Complete();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
+                var _conn = DBManager.getCon();
+                var _reader = DBManager.procGetEmailList();
 
-                return employeeList;
+                    while (_reader.Read())
+                    {
+                    employeeList.Add(new Email
+                    {
+                        Id = _reader.GetInt32(_reader.GetOrdinal("Id")),
+                        EmailAddress = _reader.GetString(_reader.GetOrdinal("Email")),
+                    });
+                    }
+
+                DBManager.closeReader(_reader);
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return employeeList;
         }
     }
 }

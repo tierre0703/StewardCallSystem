@@ -17,10 +17,10 @@ namespace ManagementApp
     {
         public static readonly string DataBaseConnectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-        SqlConnection con;
-        SqlDataAdapter adaptor;
+        SQLiteConnection con;
+        SQLiteDataAdapter adaptor;
         DataSet ds;
-        SqlCommandBuilder sqlCommBuilder;
+        SQLiteCommandBuilder sqlCommBuilder;
 
         public CallMngtUC()
         {
@@ -31,19 +31,18 @@ namespace ManagementApp
         {
             try
             {
-                con = new SqlConnection();
-                con.ConnectionString = DataBaseConnectionString;
+                con = DBManager.getCon(); //new SqlConnection();
+                //con.ConnectionString = DataBaseConnectionString;
 
-                con.Open();
+                //con.Open();
 
                 DateTime fromDate = DateTime.Now;
                 fromDate = fromDate.AddDays(-30);
                 DateTime toDate = DateTime.Now;
-
-                adaptor = new SqlDataAdapter("SELECT c.Id AS id_p, ROW_NUMBER() OVER(ORDER BY c.Id DESC) AS ID, e.Name AS 'Accepted User', r.Number AS Room, c.TimeStamp AS Time FROM Call c LEFT JOIN Employee e ON c.EmployeeId=e.Id INNER JOIN Room r ON c.RoomId=r.Id WHERE c.TimeStamp BETWEEN @fromDate AND @toDate ORDER BY c.Id DESC",
+                adaptor = new SQLiteDataAdapter("SELECT c.Id AS id_p, ROW_NUMBER() OVER(ORDER BY c.Id DESC) AS ID, e.Name AS 'Accepted User', r.Number AS Room, c.TimeStamp AS Time FROM Call c LEFT JOIN Employee e ON c.EmployeeId=e.Id INNER JOIN Room r ON c.RoomId=r.Id WHERE c.TimeStamp BETWEEN @fromDate AND @toDate ORDER BY c.Id DESC",
                     con);
-                adaptor.SelectCommand.Parameters.Add(new SqlParameter("@fromDate", fromDate));
-                adaptor.SelectCommand.Parameters.Add(new SqlParameter("@toDate", toDate));
+                adaptor.SelectCommand.Parameters.AddWithValue("@fromDate", fromDate.ToString("yyyy-MM-dd HH:mm:ss"));  //.Add(new SqlParameter("@fromDate", fromDate));
+                adaptor.SelectCommand.Parameters.AddWithValue("@toDate", toDate.ToString("yyyy-MM-dd HH:mm:ss"));      //Add(new SqlParameter("@toDate", toDate));
 
                 ds = new DataSet();
                 
@@ -65,7 +64,7 @@ namespace ManagementApp
         {
             try
             {
-                sqlCommBuilder = new SqlCommandBuilder(adaptor);
+                sqlCommBuilder = new SQLiteCommandBuilder(adaptor);
                 adaptor.Update(ds, "Call_Details");
 
                 MessageBox.Show("Successfully Updated!", "Update", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -83,13 +82,13 @@ namespace ManagementApp
                                      MessageBoxButtons.YesNo);
             if (confirmResult == DialogResult.Yes)
             {
-                SqlConnection con1 = new SqlConnection();
-                con1.ConnectionString = DataBaseConnectionString;
-
-                con1.Open();
+                //SqlConnection con1 = new SqlConnection();
+                //con1.ConnectionString = DataBaseConnectionString;
+                //con1.Open();
+                SQLiteConnection con1 = DBManager.getCon();
 
                 string query = ("DELETE FROM Call");
-                SqlCommand command = new SqlCommand(query, con1);
+                SQLiteCommand command = new SQLiteCommand(query, con1);
                 command.ExecuteNonQuery();
                 command.Dispose();
                 con1.Close();
@@ -120,7 +119,8 @@ namespace ManagementApp
 
                     try
                     {
-                        sqlCommBuilder = new SqlCommandBuilder(adaptor);
+                        //sqlCommBuilder = new SqlCommandBuilder(adaptor);
+                        sqlCommBuilder = new SQLiteCommandBuilder(adaptor);
                         adaptor.Update(ds, "Call_Details");
 
                         ServiceHandler.ServiceResart();

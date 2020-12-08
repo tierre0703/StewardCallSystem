@@ -31,34 +31,32 @@ namespace RoomServiceMngtService.DataAccess
         {
             List<Employee> employeeList = new List<Employee>();
 
-            using (TransactionScope mScop = new TransactionScope())
+            try
             {
-                try
+                Database db = new SqlDatabase(Constants.DataBaseConnectionString);
+                DbCommand dbCommand = db.GetStoredProcCommand("usp_GetEmployeeList");
+
+                var _conn = DBManager.getCon();
+                var _reader = DBManager.procGetEmployeeList();
+                while (_reader.Read())
                 {
-                    Database db = new SqlDatabase(Constants.DataBaseConnectionString);
-                    DbCommand dbCommand = db.GetStoredProcCommand("usp_GetEmployeeList");
-                    using (IDataReader dr = db.ExecuteReader(dbCommand))
+                    employeeList.Add(new Employee
                     {
-                        while (dr.Read())
-                        {
-                            employeeList.Add(new Employee
-                            {
-                                Id = int.Parse(dr["Id"].ToString()),
-                                Name = dr["Name"].ToString(),                             
-                                Username = dr["Username"].ToString(),
-                                Password = dr["Password"].ToString(),               
-                            });
-                        }
-                    }
-                    mScop.Complete();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
+                        Id = _reader.GetInt32(_reader.GetOrdinal("Id")),
+                        Name = _reader.GetString(_reader.GetOrdinal("Name")),                             
+                        Username = _reader.GetString(_reader.GetOrdinal("Username")),
+                        Password = _reader.GetString(_reader.GetOrdinal("Password")),               
+                    });
                 }
 
-                return employeeList;
+                DBManager.closeReader(_reader);
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return employeeList;
         }
     }
 }

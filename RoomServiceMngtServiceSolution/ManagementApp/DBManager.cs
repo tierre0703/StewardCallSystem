@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 
-namespace RoomServiceMngtService.DataAccess
+namespace ManagementApp
 {
     class DBManager
     {
@@ -67,7 +67,7 @@ namespace RoomServiceMngtService.DataAccess
                 }
             }
             catch (Exception e)
-            { 
+            {
             }
         }
         public static SQLiteDataReader procGetDailyAcceptedCallsByEmployee(int _EmployeeId, string _FromDate, string _ToDate)
@@ -165,7 +165,7 @@ namespace RoomServiceMngtService.DataAccess
                 }
             }
             catch (Exception e)
-            { 
+            {
             }
         }
 
@@ -238,7 +238,7 @@ namespace RoomServiceMngtService.DataAccess
                 }
             }
             catch (Exception e)
-            { 
+            {
             }
 
             return _reader;
@@ -301,7 +301,7 @@ namespace RoomServiceMngtService.DataAccess
                 }
             }
             catch (Exception e)
-            { 
+            {
             }
         }
     }

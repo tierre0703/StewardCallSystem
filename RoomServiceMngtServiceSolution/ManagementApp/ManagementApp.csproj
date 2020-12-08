@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="Constants.cs" />
     <Compile Include="ContractDuplex.cs" />
+    <Compile Include="DBManager.cs" />
     <Compile Include="EmailUC.cs">
       <SubType>UserControl</SubType>
     </Compile>

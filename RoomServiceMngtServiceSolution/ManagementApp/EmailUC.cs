@@ -7,7 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+//using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Configuration;
 
 namespace ManagementApp
@@ -16,10 +17,10 @@ namespace ManagementApp
     {
         public static readonly string DataBaseConnectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-        SqlConnection con;
-        SqlDataAdapter adaptor;
+        SQLiteConnection con;
+        SQLiteDataAdapter adaptor;
         DataSet ds;
-        SqlCommandBuilder sqlCommBuilder;
+        SQLiteCommandBuilder sqlCommBuilder;
 
         public EmailUC()
         {
@@ -44,7 +45,7 @@ namespace ManagementApp
 
                     try
                     {
-                        sqlCommBuilder = new SqlCommandBuilder(adaptor);
+                        sqlCommBuilder = new SQLiteCommandBuilder(adaptor);
                         adaptor.Update(ds, "Email_Details");
 
                         ServiceHandler.ServiceResart();
@@ -70,7 +71,7 @@ namespace ManagementApp
         {
             try
             {
-                sqlCommBuilder = new SqlCommandBuilder(adaptor);
+                sqlCommBuilder = new SQLiteCommandBuilder(adaptor);
                 adaptor.Update(ds, "Email_Details");
 
                 ServiceHandler.ServiceResart();
@@ -87,12 +88,13 @@ namespace ManagementApp
         {
             try
             {
-                con = new SqlConnection();
-                con.ConnectionString = DataBaseConnectionString;
+                //con = new SqlConnection();
+                //con.ConnectionString = DataBaseConnectionString;
+                //con.Open();
 
-                con.Open();
+                con = DBManager.getCon();
 
-                adaptor = new SqlDataAdapter("SELECT Id AS id_p, ROW_NUMBER() OVER(ORDER BY Id)  AS ID, Email FROM Email2", con);
+                adaptor = new SQLiteDataAdapter("SELECT Id AS id_p, ROW_NUMBER() OVER(ORDER BY Id)  AS ID, Email FROM Email2", con);
                 ds = new DataSet();
                 adaptor.Fill(ds, "Email_Details");
                 dataGridView1.DataSource = ds.Tables[0];

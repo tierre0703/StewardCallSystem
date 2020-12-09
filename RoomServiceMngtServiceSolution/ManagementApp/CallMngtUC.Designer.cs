@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.updateBtn = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.deleteBtn = new System.Windows.Forms.Button();
             this.clearHistoryBtn = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.deleteBtn = new System.Windows.Forms.Button();
+            this.UpdateTimer = new System.Windows.Forms.Timer(this.components);
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -45,9 +47,10 @@
             this.updateBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.updateBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.updateBtn.ForeColor = System.Drawing.Color.White;
-            this.updateBtn.Location = new System.Drawing.Point(755, 12);
+            this.updateBtn.Location = new System.Drawing.Point(566, 10);
+            this.updateBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.updateBtn.Name = "updateBtn";
-            this.updateBtn.Size = new System.Drawing.Size(137, 39);
+            this.updateBtn.Size = new System.Drawing.Size(103, 32);
             this.updateBtn.TabIndex = 0;
             this.updateBtn.Text = "Update";
             this.updateBtn.UseVisualStyleBackColor = false;
@@ -60,10 +63,28 @@
             this.panel2.Controls.Add(this.clearHistoryBtn);
             this.panel2.Controls.Add(this.updateBtn);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 569);
+            this.panel2.Location = new System.Drawing.Point(0, 463);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1035, 63);
+            this.panel2.Size = new System.Drawing.Size(776, 51);
             this.panel2.TabIndex = 5;
+            // 
+            // deleteBtn
+            // 
+            this.deleteBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(72)))), ((int)(((byte)(120)))));
+            this.deleteBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.deleteBtn.ForeColor = System.Drawing.Color.White;
+            this.deleteBtn.Location = new System.Drawing.Point(459, 10);
+            this.deleteBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.deleteBtn.Name = "deleteBtn";
+            this.deleteBtn.Size = new System.Drawing.Size(103, 32);
+            this.deleteBtn.TabIndex = 2;
+            this.deleteBtn.Text = "Delete";
+            this.deleteBtn.UseVisualStyleBackColor = false;
+            this.deleteBtn.Visible = false;
+            this.deleteBtn.Click += new System.EventHandler(this.deleteBtn_Click);
             // 
             // clearHistoryBtn
             // 
@@ -72,9 +93,10 @@
             this.clearHistoryBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.clearHistoryBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.clearHistoryBtn.ForeColor = System.Drawing.Color.White;
-            this.clearHistoryBtn.Location = new System.Drawing.Point(898, 12);
+            this.clearHistoryBtn.Location = new System.Drawing.Point(674, 10);
+            this.clearHistoryBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.clearHistoryBtn.Name = "clearHistoryBtn";
-            this.clearHistoryBtn.Size = new System.Drawing.Size(137, 39);
+            this.clearHistoryBtn.Size = new System.Drawing.Size(103, 32);
             this.clearHistoryBtn.TabIndex = 1;
             this.clearHistoryBtn.Text = "Clear History";
             this.clearHistoryBtn.UseVisualStyleBackColor = false;
@@ -102,35 +124,27 @@
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView1.EnableHeadersVisualStyles = false;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1035, 632);
+            this.dataGridView1.Size = new System.Drawing.Size(776, 514);
             this.dataGridView1.TabIndex = 4;
             // 
-            // deleteBtn
+            // UpdateTimer
             // 
-            this.deleteBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.deleteBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(72)))), ((int)(((byte)(120)))));
-            this.deleteBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.deleteBtn.ForeColor = System.Drawing.Color.White;
-            this.deleteBtn.Location = new System.Drawing.Point(612, 12);
-            this.deleteBtn.Name = "deleteBtn";
-            this.deleteBtn.Size = new System.Drawing.Size(137, 39);
-            this.deleteBtn.TabIndex = 2;
-            this.deleteBtn.Text = "Delete";
-            this.deleteBtn.UseVisualStyleBackColor = false;
-            this.deleteBtn.Visible = false;
-            this.deleteBtn.Click += new System.EventHandler(this.deleteBtn_Click);
+            this.UpdateTimer.Enabled = true;
+            this.UpdateTimer.Interval = 5000;
+            this.UpdateTimer.Tick += new System.EventHandler(this.UpdateTimer_Tick);
             // 
             // CallMngtUC
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.dataGridView1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "CallMngtUC";
-            this.Size = new System.Drawing.Size(1035, 632);
+            this.Size = new System.Drawing.Size(776, 514);
             this.Load += new System.EventHandler(this.CallMngtUC_Load);
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -145,5 +159,6 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button clearHistoryBtn;
         private System.Windows.Forms.Button deleteBtn;
+        private System.Windows.Forms.Timer UpdateTimer;
     }
 }

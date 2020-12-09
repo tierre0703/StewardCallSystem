@@ -1,6 +1,4 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.Data;
-using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
-using RoomServiceMngtService.Model;
+﻿using RoomServiceMngtService.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;

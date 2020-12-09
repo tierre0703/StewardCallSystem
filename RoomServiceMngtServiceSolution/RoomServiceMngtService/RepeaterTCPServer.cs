@@ -211,6 +211,7 @@ namespace RoomServiceMngtService
                         Room room = RoomFactory.GetInstance().GetByUniqueId(roomId[0]);
                         if (room == null)
                         {
+                            Console.WriteLine("room Null");
                             return;
                         }
                         string uniqueId = Guid.NewGuid().ToString();

@@ -13,6 +13,7 @@ namespace RoomServiceMngtService.Model
         public Employee Employee;
         public bool Accepted;
         public DateTime TimeStamp;
+        public string ANSWERTimeStamp;
         public List<int> CancelledList = new List<int>();
     }
 }

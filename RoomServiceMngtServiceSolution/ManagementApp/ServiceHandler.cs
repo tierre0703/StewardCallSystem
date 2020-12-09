@@ -18,6 +18,7 @@ namespace ManagementApp
            
                 Service = new ServiceController("StewardCallSystemService");
 
+
                 int millisec1 = Environment.TickCount;
                 TimeSpan timeout = TimeSpan.FromMilliseconds(30000);
 

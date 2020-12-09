@@ -40,7 +40,8 @@ namespace RoomServiceMngtService.DataAccess
                         /*mObje.Employee.Id,*/ 
                         mObje.Room.Id, 
                         Convert.ToInt32(mObje.Accepted), 
-                        mObje.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss"));
+                        mObje.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss"),
+                        "");
 
                     sucess = "Sucess";
                 }
@@ -114,9 +115,10 @@ namespace RoomServiceMngtService.DataAccess
                         UniqueId = _reader.GetString(_reader.GetOrdinal("UniqueId")),
                         Room = RoomFactory.GetInstance().TryGet(_reader.GetInt32(_reader.GetOrdinal("RoomId"))),
                         TimeStamp = DateTime.Parse(_reader.GetString(_reader.GetOrdinal("TimeStamp"))),
+                        ANSWERTimeStamp = _reader.GetString(_reader.GetOrdinal("ANSWERTimeStamp")),
                         Accepted = false,
                         Employee = ((_reader.IsDBNull(_reader.GetOrdinal("EmployeeId")))?null:EmployeeFactory.GetInstance().TryGet(_reader.GetInt32(_reader.GetOrdinal("EmployeeId"))))
-                    });
+                    });;
                 }
                 DBManager.closeReader(_reader);
             }
@@ -147,6 +149,7 @@ namespace RoomServiceMngtService.DataAccess
                         UniqueId = _reader.GetString(_reader.GetOrdinal("UniqueId")),
                         Room = RoomFactory.GetInstance().TryGet(_reader.GetInt32(_reader.GetOrdinal("RoomId"))),
                         TimeStamp = DateTime.Parse(_reader.GetString(_reader.GetOrdinal("TimeStamp"))),
+                        ANSWERTimeStamp = _reader.GetString(_reader.GetOrdinal("ANSWERTimeStamp")),
                         Accepted = false,
                     });
                 }

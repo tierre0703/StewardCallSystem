@@ -58,9 +58,10 @@
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView1.EnableHeadersVisualStyles = false;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1054, 577);
+            this.dataGridView1.Size = new System.Drawing.Size(790, 469);
             this.dataGridView1.TabIndex = 6;
             this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
             // 
@@ -68,10 +69,12 @@
             // 
             this.panel2.Controls.Add(this.updateBtn);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 577);
+            this.panel2.Location = new System.Drawing.Point(0, 469);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1054, 63);
+            this.panel2.Size = new System.Drawing.Size(790, 51);
             this.panel2.TabIndex = 7;
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // updateBtn
             // 
@@ -80,9 +83,10 @@
             this.updateBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.updateBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.updateBtn.ForeColor = System.Drawing.Color.White;
-            this.updateBtn.Location = new System.Drawing.Point(915, 12);
+            this.updateBtn.Location = new System.Drawing.Point(686, 10);
+            this.updateBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.updateBtn.Name = "updateBtn";
-            this.updateBtn.Size = new System.Drawing.Size(137, 39);
+            this.updateBtn.Size = new System.Drawing.Size(103, 32);
             this.updateBtn.TabIndex = 1;
             this.updateBtn.Text = "Export";
             this.updateBtn.UseVisualStyleBackColor = false;
@@ -91,12 +95,13 @@
             // 
             // MobileAppStatusUC
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.panel2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "MobileAppStatusUC";
-            this.Size = new System.Drawing.Size(1054, 640);
+            this.Size = new System.Drawing.Size(790, 520);
             this.Load += new System.EventHandler(this.MobileAppStatusUC_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel2.ResumeLayout(false);

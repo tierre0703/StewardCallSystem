@@ -80,7 +80,7 @@ namespace RoomServiceMngtService.DataAccess
                     using (SQLiteTransaction mytransaction = _conn.BeginTransaction())
                     {
                         SQLiteCommand cmd = new SQLiteCommand(_conn);
-                        cmd.CommandText = "SELECT Id, UniqueId, RoomId, TimeStamp, IsAccepted, EmployeeId FROM Call WHERE (EmployeeId = @EmployeeId) AND ([TimeStamp] BETWEEN @FromDate AND @ToDate) AND (IsAccepted=1)";
+                        cmd.CommandText = "SELECT Id, UniqueId, RoomId, TimeStamp, ANSWERTimeStamp, IsAccepted, EmployeeId FROM Call WHERE (EmployeeId = @EmployeeId) AND ([TimeStamp] BETWEEN @FromDate AND @ToDate) AND (IsAccepted=1)";
                         cmd.Parameters.AddWithValue("@EmployeeId", _EmployeeId);
                         cmd.Parameters.AddWithValue("@FromDate", _FromDate);
                         cmd.Parameters.AddWithValue("@ToDate", _ToDate);
@@ -127,10 +127,16 @@ namespace RoomServiceMngtService.DataAccess
                     using (SQLiteTransaction mytransaction = _conn.BeginTransaction())
                     {
                         SQLiteCommand cmd = new SQLiteCommand(_conn);
-                        cmd.CommandText = @"UPDATE [dbo].[Call] SET [EmployeeId]= @EmployeeId, [IsAccepted]=@IsAccepted WHERE [UniqueId]=@UniqueId";
+                        string time = "";
+                        if (_IsAccepted == 1)
+                        { 
+                            time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        }
+                        cmd.CommandText = @"UPDATE Call SET EmployeeId= @EmployeeId, IsAccepted=@IsAccepted, ANSWERTimeStamp=@ANSWERTimeStamp WHERE UniqueId=@UniqueId";
                         cmd.Parameters.AddWithValue("@EmployeeId", _EmployeeId);
                         cmd.Parameters.AddWithValue("@IsAccepted", _IsAccepted);
                         cmd.Parameters.AddWithValue("@UniqueId", _UniqueId);
+                        cmd.Parameters.AddWithValue("@ANSWERTimeStamp", time);
                         cmd.Prepare();
                         cmd.ExecuteNonQuery();
 
@@ -142,7 +148,7 @@ namespace RoomServiceMngtService.DataAccess
             { }
         }
 
-        public static void procInsertCall(string _UniqueId, int _RoomId, int _IsAccepted, string _TimeStamp)
+        public static void procInsertCall(string _UniqueId, int _RoomId, int _IsAccepted, string _TimeStamp, string _AnswerTimeStamp)
         {
             try
             {
@@ -152,20 +158,24 @@ namespace RoomServiceMngtService.DataAccess
                     {
 
                         SQLiteCommand cmd = new SQLiteCommand(_conn);
-                        cmd.CommandText = @"insert into [dbo].[Call] ([UniqueId], [RoomId], [IsAccepted],[TimeStamp])
-                        values(@UniqueId, @RoomId, @IsAccepted, @TimeStamp)";
+                        cmd.CommandText = @"insert into Call (UniqueId, RoomId, IsAccepted, TimeStamp, ANSWERTimeStamp)
+                        values(@UniqueId, @RoomId, @IsAccepted, @TimeStamp, @ANSWERTimeStamp)";
                         cmd.Parameters.AddWithValue("@UniqueId", _UniqueId);
                         cmd.Parameters.AddWithValue("@RoomId", _RoomId);
                         cmd.Parameters.AddWithValue("@IsAccepted", _IsAccepted);
                         cmd.Parameters.AddWithValue("@TimeStamp", _TimeStamp);
+                        cmd.Parameters.AddWithValue("@ANSWERTimeStamp", _AnswerTimeStamp);
+
                         cmd.Prepare();
+                        Console.WriteLine(cmd.CommandText);
                         cmd.ExecuteNonQuery();
                         mytransaction.Commit();
                     }
                 }
             }
             catch (Exception e)
-            { 
+            {
+                Console.WriteLine(e.Message.ToString());
             }
         }
 
@@ -204,7 +214,7 @@ namespace RoomServiceMngtService.DataAccess
                     {
 
                         SQLiteCommand cmd = new SQLiteCommand(_conn);
-                        cmd.CommandText = "SELECT [Id],[UniqueId],[RoomId],[TimeStamp],[IsAccepted] FROM [dbo].[Call] WHERE ([TimeStamp] BETWEEN @FromDate AND @ToDate) AND ([IsAccepted]=0) ";
+                        cmd.CommandText = "SELECT Id, UniqueId, RoomId, TimeStamp, ANSWERTimeStamp, IsAccepted FROM Call WHERE (TimeStamp BETWEEN @FromDate AND @ToDate) AND (IsAccepted=0) ";
                         cmd.Parameters.AddWithValue("@FromDate", _FromDate);
                         cmd.Parameters.AddWithValue("@ToDate", _ToDate);
                         cmd.Prepare();
@@ -262,7 +272,8 @@ namespace RoomServiceMngtService.DataAccess
                             EmployeeId    integer,
 	                        RoomId    integer,
 	                        IsAccepted    bit,
-	                        TimeStamp datetime,
+	                        TimeStamp nvarchar(50),
+                            ANSWERTimeStamp nvarchar(50),
 	                        FOREIGN KEY(EmployeeId) REFERENCES Employee(Id),
 	                        FOREIGN KEY(RoomId) REFERENCES Room(Id),
 	                        PRIMARY KEY(Id AUTOINCREMENT)

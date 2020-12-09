@@ -119,7 +119,8 @@ namespace RoomServiceMngtService.Services
 
         public static void ReceiveNewCall(Call call)
         {
-            try { 
+            try {
+                Console.WriteLine("ReceveNewCall");
                 CallFactory.GetInstance().Add(call.UniqueId, call);
                 MobileTCPServer.Instance.SendToAll(ConnectionStrings.CALL + call.UniqueId + ":" + call.Room.Number + ":");
                 Task.Run(() => CallData.GetInstance().SaveCall(call));

@@ -25,6 +25,7 @@ namespace ManagementApp
         public CallMngtUC()
         {
             InitializeComponent();
+
         }
 
         private void CallMngtUC_Load(object sender, EventArgs e)
@@ -39,13 +40,12 @@ namespace ManagementApp
                 DateTime fromDate = DateTime.Now;
                 fromDate = fromDate.AddDays(-30);
                 DateTime toDate = DateTime.Now;
-                adaptor = new SQLiteDataAdapter("SELECT c.Id AS id_p, ROW_NUMBER() OVER(ORDER BY c.Id DESC) AS ID, e.Name AS 'Accepted User', r.Number AS Room, c.TimeStamp AS Time FROM Call c LEFT JOIN Employee e ON c.EmployeeId=e.Id INNER JOIN Room r ON c.RoomId=r.Id WHERE c.TimeStamp BETWEEN @fromDate AND @toDate ORDER BY c.Id DESC",
+                adaptor = new SQLiteDataAdapter("SELECT c.Id AS id_p, ROW_NUMBER() OVER(ORDER BY c.Id DESC) AS ID, e.Name AS 'Accepted User', r.Number AS Room, c.TimeStamp AS 'Call Time', c.ANSWERTimeStamp AS 'Answer Time' FROM Call c LEFT JOIN Employee e ON c.EmployeeId=e.Id INNER JOIN Room r ON c.RoomId=r.Id WHERE c.TimeStamp BETWEEN @fromDate AND @toDate ORDER BY c.Id DESC",
                     con);
                 adaptor.SelectCommand.Parameters.AddWithValue("@fromDate", fromDate.ToString("yyyy-MM-dd HH:mm:ss"));  //.Add(new SqlParameter("@fromDate", fromDate));
                 adaptor.SelectCommand.Parameters.AddWithValue("@toDate", toDate.ToString("yyyy-MM-dd HH:mm:ss"));      //Add(new SqlParameter("@toDate", toDate));
 
                 ds = new DataSet();
-                
                 adaptor.Fill(ds, "Call_Details");
                 dataGridView1.DataSource = ds.Tables[0];
             }
@@ -90,8 +90,8 @@ namespace ManagementApp
                 string query = ("DELETE FROM Call");
                 SQLiteCommand command = new SQLiteCommand(query, con1);
                 command.ExecuteNonQuery();
-                command.Dispose();
-                con1.Close();
+                //command.Dispose();
+                //con1.Close();
 
                 CallMngtUC_Load(this, null);
             }
@@ -140,6 +140,41 @@ namespace ManagementApp
             {
                 MessageBox.Show("No records selected!", "Empty Selection", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void UpdateTimer_Tick(object sender, EventArgs e)
+        {
+
+            try
+            {
+                con = DBManager.getCon(); //new SqlConnection();
+                //con.ConnectionString = DataBaseConnectionString;
+
+                //con.Open();
+
+                DateTime fromDate = DateTime.Now;
+                fromDate = fromDate.AddDays(-30);
+                DateTime toDate = DateTime.Now;
+                adaptor = new SQLiteDataAdapter("SELECT c.Id AS id_p, ROW_NUMBER() OVER(ORDER BY c.Id DESC) AS ID, e.Name AS 'Accepted User', r.Number AS Room, c.TimeStamp AS 'Call Time', c.ANSWERTimeStamp AS 'Answer Time' FROM Call c LEFT JOIN Employee e ON c.EmployeeId=e.Id INNER JOIN Room r ON c.RoomId=r.Id WHERE c.TimeStamp BETWEEN @fromDate AND @toDate ORDER BY c.Id DESC",
+                    con);
+                adaptor.SelectCommand.Parameters.AddWithValue("@fromDate", fromDate.ToString("yyyy-MM-dd HH:mm:ss"));  //.Add(new SqlParameter("@fromDate", fromDate));
+                adaptor.SelectCommand.Parameters.AddWithValue("@toDate", toDate.ToString("yyyy-MM-dd HH:mm:ss"));      //Add(new SqlParameter("@toDate", toDate));
+
+                ds = new DataSet();
+                adaptor.Fill(ds, "Call_Details");
+                dataGridView1.DataSource = ds.Tables[0];
+                dataGridView1.Update();
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show(ee.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            if (dataGridView1.ColumnCount > 0)
+            {
+                dataGridView1.Columns[0].Visible = false;
+            }
+
         }
     }
 }

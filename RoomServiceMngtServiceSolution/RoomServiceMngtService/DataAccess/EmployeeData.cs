@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Practices.EnterpriseLibrary.Data;
-using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Data.Common;
@@ -33,8 +31,6 @@ namespace RoomServiceMngtService.DataAccess
 
             try
             {
-                Database db = new SqlDatabase(Constants.DataBaseConnectionString);
-                DbCommand dbCommand = db.GetStoredProcCommand("usp_GetEmployeeList");
 
                 var _conn = DBManager.getCon();
                 var _reader = DBManager.procGetEmployeeList();
